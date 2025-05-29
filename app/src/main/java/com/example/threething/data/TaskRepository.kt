@@ -1,6 +1,7 @@
 package com.example.threething.data
 
 import android.content.Context
+import com.example.threething.TaskProto
 import com.example.threething.UserPreferences
 import com.example.threething.notification.NotificationHelper
 import kotlinx.coroutines.flow.Flow
@@ -24,24 +25,63 @@ class TaskRepository(private val context: Context) {
 
     suspend fun updateTask1(newValue: String) {
         dataStore.updateData { current ->
-            val updated = current.toBuilder().setTask1(newValue).build()
-            NotificationHelper.showTaskNotification(context, updated.task1, updated.task2, updated.task3)
+            val updated = current.toBuilder()
+                .setTask1(
+                    TaskProto.newBuilder()
+                        .setText(newValue)
+                        .setIsCompleted(false) // or preserve previous completed state if you want
+                        .build()
+                )
+                .build()
+
+            NotificationHelper.showTaskNotification(
+                context,
+                updated.task1.text,
+                updated.task2.text,
+                updated.task3.text
+            )
             updated
         }
     }
 
     suspend fun updateTask2(newValue: String) {
         dataStore.updateData { current ->
-            val updated = current.toBuilder().setTask2(newValue).build()
-            NotificationHelper.showTaskNotification(context, updated.task1, updated.task2, updated.task3)
+            val updated = current.toBuilder()
+                .setTask2(
+                    TaskProto.newBuilder()
+                        .setText(newValue)
+                        .setIsCompleted(false)
+                        .build()
+                )
+                .build()
+
+            NotificationHelper.showTaskNotification(
+                context,
+                updated.task1.text,
+                updated.task2.text,
+                updated.task3.text
+            )
             updated
         }
     }
 
     suspend fun updateTask3(newValue: String) {
         dataStore.updateData { current ->
-            val updated = current.toBuilder().setTask3(newValue).build()
-            NotificationHelper.showTaskNotification(context, updated.task1, updated.task2, updated.task3)
+            val updated = current.toBuilder()
+                .setTask3(
+                    TaskProto.newBuilder()
+                        .setText(newValue)
+                        .setIsCompleted(false)
+                        .build()
+                )
+                .build()
+
+            NotificationHelper.showTaskNotification(
+                context,
+                updated.task1.text,
+                updated.task2.text,
+                updated.task3.text
+            )
             updated
         }
     }

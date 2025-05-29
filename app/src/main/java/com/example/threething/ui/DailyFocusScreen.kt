@@ -17,14 +17,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.threething.ui.main.TaskViewModel
 import java.text.SimpleDateFormat
 import java.util.*
 
-data class Task(var text: String, var isCompleted: Boolean = false)
-
 @Composable
-fun DailyFocusScreen() {
-    var tasks by remember { mutableStateOf(mutableListOf<Task>()) }
+fun DailyFocusScreen(taskViewModel: TaskViewModel) {
+    // Collect tasks state from ViewModel (assuming it exposes a State<List<Task>> or similar)
+    val tasks by taskViewModel.tasks.collectAsState()
+
     var input by remember { mutableStateOf("") }
 
     val currentDate = remember {
@@ -73,7 +74,7 @@ fun DailyFocusScreen() {
                 keyboardActions = KeyboardActions(
                     onDone = {
                         if (input.isNotBlank() && tasks.size < 3) {
-                            tasks = tasks.toMutableList().apply { add(Task(input)) }
+                            taskViewModel.addTask(input)
                             input = ""
                         }
                     }
@@ -83,7 +84,7 @@ fun DailyFocusScreen() {
 
             IconButton(
                 onClick = {
-                    tasks = mutableListOf()  // ✅ Correct way to clear and trigger recomposition
+                    taskViewModel.clearTasks()
                     input = ""
                 }
             ) {
@@ -116,16 +117,12 @@ fun DailyFocusScreen() {
                         modifier = Modifier.weight(1f)
                     )
                     IconButton(onClick = {
-                        tasks = tasks.toMutableList().also {
-                            it[index] = it[index].copy(isCompleted = !it[index].isCompleted)
-                        }
+                        taskViewModel.toggleTaskCompletion(index)
                     }) {
                         Icon(Icons.Default.Check, contentDescription = "Complete")
                     }
                     IconButton(onClick = {
-                        tasks = tasks.toMutableList().also {
-                            it.removeAt(index)
-                        }
+                        taskViewModel.removeTask(index)
                     }) {
                         Icon(Icons.Default.Delete, contentDescription = "Delete")
                     }

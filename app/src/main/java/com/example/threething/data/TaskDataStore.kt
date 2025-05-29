@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.core.Serializer
 import androidx.datastore.dataStore
+import com.example.threething.TaskProto
 import com.example.threething.UserPreferences
 import com.google.protobuf.InvalidProtocolBufferException
 import java.io.InputStream
@@ -36,9 +37,9 @@ suspend fun saveTasks(
 ) {
     dataStore.updateData { prefs ->
         prefs.toBuilder()
-            .setTask1(task1)
-            .setTask2(task2)
-            .setTask3(task3)
+            .setTask1(TaskProto.newBuilder().setText(task1).setIsCompleted(false).build())
+            .setTask2(TaskProto.newBuilder().setText(task2).setIsCompleted(false).build())
+            .setTask3(TaskProto.newBuilder().setText(task3).setIsCompleted(false).build())
             .build()
     }
 }

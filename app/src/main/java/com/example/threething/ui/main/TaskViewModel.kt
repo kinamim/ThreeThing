@@ -1,75 +1,79 @@
 package com.example.threething.ui.main
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewModelScope
 import androidx.datastore.core.DataStore
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.threething.UserPreferences
-import com.example.threething.data.readTasks
-import com.example.threething.data.saveTasks
+import com.example.threething.TaskProto
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+
+data class Task(val text: String, val isCompleted: Boolean = false)
 
 class TaskViewModel(
     private val dataStore: DataStore<UserPreferences>
 ) : ViewModel() {
 
-    private val _task1 = MutableStateFlow("")
-    private val _task2 = MutableStateFlow("")
-    private val _task3 = MutableStateFlow("")
-
-    val task1: StateFlow<String> = _task1
-    val task2: StateFlow<String> = _task2
-    val task3: StateFlow<String> = _task3
+    private val _tasks = MutableStateFlow<List<Task>>(emptyList())
+    val tasks: StateFlow<List<Task>> = _tasks
 
     init {
-        // Load saved tasks once when ViewModel is created
+        // Load tasks including isCompleted from DataStore on ViewModel start
         viewModelScope.launch {
-            readTasks(dataStore).collect { prefs ->
-                _task1.value = prefs.task1
-                _task2.value = prefs.task2
-                _task3.value = prefs.task3
-            }
-        }
-    }
-
-    fun updateTask1(newTask1: String) {
-        _task1.value = newTask1
-        persistAll()
-    }
-
-    fun updateTask2(newTask2: String) {
-        _task2.value = newTask2
-        persistAll()
-    }
-
-    fun updateTask3(newTask3: String) {
-        _task3.value = newTask3
-        persistAll()
-    }
-
-    private fun persistAll() {
-        viewModelScope.launch {
-            saveTasks(
-                dataStore,
-                _task1.value,
-                _task2.value,
-                _task3.value
+            val prefs = dataStore.data.first()
+            val restoredTasks = listOfNotNull(
+                prefs.task1.takeIf { it.text.isNotBlank() }?.let { Task(it.text, it.isCompleted) },
+                prefs.task2.takeIf { it.text.isNotBlank() }?.let { Task(it.text, it.isCompleted) },
+                prefs.task3.takeIf { it.text.isNotBlank() }?.let { Task(it.text, it.isCompleted) }
             )
+            _tasks.value = restoredTasks
         }
     }
 
-    /** Factory to provide DataStore<UserPreferences> into this ViewModel */
-    class Factory(
-        private val dataStore: DataStore<UserPreferences>
-    ) : ViewModelProvider.Factory {
-        @Suppress("UNCHECKED_CAST")
-        override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            if (modelClass.isAssignableFrom(TaskViewModel::class.java)) {
-                return TaskViewModel(dataStore) as T
+    fun addTask(text: String) {
+        val updated = _tasks.value.toMutableList().apply {
+            if (size < 3) add(Task(text))
+        }
+        _tasks.value = updated
+        persistTasks(updated)
+    }
+
+    fun clearTasks() {
+        _tasks.value = emptyList()
+        persistTasks(emptyList())
+    }
+
+    fun toggleTaskCompletion(index: Int) {
+        val updated = _tasks.value.toMutableList().apply {
+            val task = this[index]
+            this[index] = task.copy(isCompleted = !task.isCompleted)
+        }
+        _tasks.value = updated
+        persistTasks(updated)
+    }
+
+    fun removeTask(index: Int) {
+        val updated = _tasks.value.toMutableList().apply {
+            removeAt(index)
+        }
+        _tasks.value = updated
+        persistTasks(updated)
+    }
+
+    private fun persistTasks(tasks: List<Task>) {
+        viewModelScope.launch {
+            dataStore.updateData { prefs ->
+                prefs.toBuilder()
+                    .setTask1(tasks.getOrNull(0)?.let { TaskProto.newBuilder().setText(it.text).setIsCompleted(it.isCompleted).build() }
+                        ?: TaskProto.getDefaultInstance())
+                    .setTask2(tasks.getOrNull(1)?.let { TaskProto.newBuilder().setText(it.text).setIsCompleted(it.isCompleted).build() }
+                        ?: TaskProto.getDefaultInstance())
+                    .setTask3(tasks.getOrNull(2)?.let { TaskProto.newBuilder().setText(it.text).setIsCompleted(it.isCompleted).build() }
+                        ?: TaskProto.getDefaultInstance())
+                    .build()
             }
-            throw IllegalArgumentException("Unknown ViewModel class")
         }
     }
 }

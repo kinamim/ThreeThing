@@ -65,7 +65,7 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     val navController = rememberNavController()
-                    NavGraph(navController = navController)
+                    NavGraph(navController = navController, taskViewModel = taskViewModel)
                 }
             }
         }
@@ -88,14 +88,14 @@ class MainActivity : ComponentActivity() {
     private fun startForegroundTaskNotification() {
         lifecycleScope.launch {
             val prefs = readTasks(userPreferencesDataStore).first()
-            val task1 = prefs.task1
-            val task2 = prefs.task2
-            val task3 = prefs.task3
+            val task1Text = prefs.task1.text
+            val task2Text = prefs.task2.text
+            val task3Text = prefs.task3.text
 
             val intent = Intent(this@MainActivity, TaskForegroundService::class.java).apply {
-                putExtra("task1", task1)
-                putExtra("task2", task2)
-                putExtra("task3", task3)
+                putExtra("task1", task1Text)
+                putExtra("task2", task2Text)
+                putExtra("task3", task3Text)
             }
             ContextCompat.startForegroundService(this@MainActivity, intent)
         }

@@ -23,9 +23,9 @@ class MyThreeWidget : AppWidgetProvider() {
             CoroutineScope(Dispatchers.IO).launch {
                 val prefs = prefsFlow.first()
                 val views = RemoteViews(context.packageName, R.layout.widget_layout).apply {
-                    setTextViewText(R.id.task1, prefs.task1)
-                    setTextViewText(R.id.task2, prefs.task2)
-                    setTextViewText(R.id.task3, prefs.task3)
+                    setTextViewText(R.id.task1, prefs.task1.text)
+                    setTextViewText(R.id.task2, prefs.task2.text)
+                    setTextViewText(R.id.task3, prefs.task3.text)
                 }
                 appWidgetManager.updateAppWidget(appWidgetId, views)
             }
