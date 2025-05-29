@@ -43,6 +43,4 @@ suspend fun saveTasks(
     }
 }
 
-fun readTasks(dataStore: DataStore<UserPreferences>): Flow<UserPreferences> {
-    return dataStore.data
-}
+fun readTasks(dataStore: DataStore<UserPreferences>): Flow<UserPreferences> = dataStore.data

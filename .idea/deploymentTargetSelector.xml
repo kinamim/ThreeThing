@@ -4,7 +4,7 @@
     <selectionStates>
       <SelectionState runConfigName="Threething">
         <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2025-05-29T11:18:02.960886900Z">
+        <DropdownSelection timestamp="2025-05-29T10:34:48.226767400Z">
           <Target type="DEFAULT_BOOT">
             <handle>
               <DeviceId pluginId="PhysicalDevice" identifier="serial=YTIRJVAEPVSSL78H" />

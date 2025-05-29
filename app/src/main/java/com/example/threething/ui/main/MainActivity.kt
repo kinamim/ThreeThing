@@ -1,7 +1,6 @@
 package com.example.threething.ui.main
 
 import android.Manifest
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
@@ -71,15 +70,7 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
-    suspend fun saveTasks(context: Context, task1: String, task2: String, task3: String) {
-        context.userPreferencesDataStore.updateData { currentPrefs ->
-            currentPrefs.toBuilder()
-                .setTask1(task1)
-                .setTask2(task2)
-                .setTask3(task3)
-                .build()
-        }
-    }
+
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
