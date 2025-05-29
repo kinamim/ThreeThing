@@ -21,8 +21,18 @@ import com.example.threething.ui.navigation.NavGraph
 import com.example.threething.ui.theme.ThreeThingTheme
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import androidx.activity.viewModels
+import com.example.threething.data.userPreferencesDataStore
+import com.example.threething.ui.main.TaskViewModel
+import com.example.threething.ui.main.TaskViewModelFactory
+
 
 class MainActivity : ComponentActivity() {
+
+    // Create ViewModel instance here, passing userPreferencesDataStore from Context
+    private val taskViewModel: TaskViewModel by viewModels {
+        TaskViewModelFactory(this.userPreferencesDataStore)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
