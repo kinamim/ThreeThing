@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="&lt;appwidget-provider xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;&#xA;    android:minWidth=&quot;250dp&quot;&#xA;    android:minHeight=&quot;100dp&quot;&#xA;    android:updatePeriodMillis=&quot;1800000&quot;  &lt;!-- optional: auto-refresh every 30min -->&#xA;    android:initialLayout=&quot;@layout/widget_layout&quot;&#xA;    android:resizeMode=&quot;horizontal|vertical&quot;&#xA;    android:widgetCategory=&quot;home_screen&quot; />&#xA;" />
+</PreferenceScreen>

@@ -1,0 +1,5 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <style name="Theme.ThreeThing" parent="android:Theme.DeviceDefault">
+        <!-- This is unused in Compose, but required to stop crashes -->
+    </style>
+</resources>
