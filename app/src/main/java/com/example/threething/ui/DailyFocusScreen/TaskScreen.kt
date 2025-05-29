@@ -5,8 +5,9 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.datastore.core.DataStore
+import com.example.threething.UserPreferences
 import com.example.threething.ui.main.TaskViewModel
-
 
 @Composable
 fun TaskScreen(viewModel: TaskViewModel) {
@@ -30,5 +31,16 @@ fun TaskScreen(viewModel: TaskViewModel) {
             onValueChange = { viewModel.updateTask3(it) },
             label = { Text("Task 3") }
         )
+
+        // Debug UI: show saved tasks in DataStore live
+        DebugDataStoreContent(viewModel.dataStore)
     }
+}
+
+@Composable
+fun DebugDataStoreContent(dataStore: DataStore<UserPreferences>) {
+    val prefsFlow = dataStore.data.collectAsState(initial = UserPreferences.getDefaultInstance())
+    Text(
+        text = "Stored tasks:\n1: ${prefsFlow.value.task1}\n2: ${prefsFlow.value.task2}\n3: ${prefsFlow.value.task3}"
+    )
 }

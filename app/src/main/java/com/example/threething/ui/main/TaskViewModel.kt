@@ -7,13 +7,15 @@ import androidx.datastore.core.DataStore
 import com.example.threething.UserPreferences
 import com.example.threething.data.readTasks
 import com.example.threething.data.saveTasks
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
-
 class TaskViewModel(
-    private val dataStore: DataStore<UserPreferences>
+    val dataStore: DataStore<UserPreferences>
 ) : ViewModel() {
 
     private val _task1 = MutableStateFlow("")
@@ -23,6 +25,8 @@ class TaskViewModel(
     val task1: StateFlow<String> = _task1
     val task2: StateFlow<String> = _task2
     val task3: StateFlow<String> = _task3
+
+    private var saveJob: Job? = null
 
     init {
         // Load saved tasks once when ViewModel is created
@@ -35,30 +39,27 @@ class TaskViewModel(
         }
     }
 
+    private fun scheduleSave() {
+        saveJob?.cancel()
+        saveJob = viewModelScope.launch {
+            delay(1000) // debounce 1 second before saving
+            saveTasks(dataStore, _task1.value, _task2.value, _task3.value)
+        }
+    }
+
     fun updateTask1(newTask1: String) {
         _task1.value = newTask1
-        persistAll()
+        scheduleSave()
     }
 
     fun updateTask2(newTask2: String) {
         _task2.value = newTask2
-        persistAll()
+        scheduleSave()
     }
 
     fun updateTask3(newTask3: String) {
         _task3.value = newTask3
-        persistAll()
-    }
-
-    private fun persistAll() {
-        viewModelScope.launch {
-            saveTasks(
-                dataStore,
-                _task1.value,
-                _task2.value,
-                _task3.value
-            )
-        }
+        scheduleSave()
     }
 
     /** Factory to provide DataStore<UserPreferences> into this ViewModel */
