@@ -86,7 +86,7 @@ class MainActivity : ComponentActivity() {
 
     private fun startForegroundTaskNotification() {
         lifecycleScope.launch {
-            val prefs = readTasks(this@MainActivity).first()
+            val prefs = readTasks(userPreferencesDataStore).first()
             val task1 = prefs.task1
             val task2 = prefs.task2
             val task3 = prefs.task3
