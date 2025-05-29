@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import com.example.threething.ui.main.TaskViewModel
 
+
 @Composable
 fun TaskScreen(viewModel: TaskViewModel) {
     val task1 = viewModel.task1.collectAsState().value
