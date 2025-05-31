@@ -22,14 +22,28 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 @Composable
-fun DailyFocusScreen(taskViewModel: TaskViewModel) {
-    // Collect tasks state from ViewModel (assuming it exposes a State<List<Task>> or similar)
+fun DailyFocusScreen(
+    taskViewModel: TaskViewModel,
+    startNotification: () -> Unit // pass a lambda to start notification from outside
+) {
+    // Collect tasks state
     val tasks by taskViewModel.tasks.collectAsState()
+
+    // Collect start notification event state
+    val startNotificationEvent by taskViewModel.startNotificationEvent.collectAsState()
 
     var input by remember { mutableStateOf("") }
 
     val currentDate = remember {
         SimpleDateFormat("EEEE, dd MMMM yyyy", Locale.getDefault()).format(Date())
+    }
+
+    // Trigger notification start when event becomes true
+    LaunchedEffect(startNotificationEvent) {
+        if (startNotificationEvent) {
+            startNotification()
+            taskViewModel.resetStartNotificationEvent()
+        }
     }
 
     Column(

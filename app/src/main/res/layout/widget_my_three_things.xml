@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/widget_root_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@drawable/card_background"
+    android:clickable="true"
+    android:focusable="true">
+
+    <TextView
+        android:id="@+id/widget_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="My Three Things"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@color/widgetTitleColor"
+        android:gravity="center"
+        android:paddingBottom="12dp" />
+
+    <TextView
+        android:id="@+id/widget_empty_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Stay Focused: Update Your Tasks Now"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:gravity="center"
+        android:visibility="gone"
+        android:paddingTop="8dp" />
+
+    <TextView
+        android:id="@+id/widget_congratulation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="🎉 Congratulations! All done!"
+        android:textSize="18sp"
+        android:textColor="@color/widgetTitleColor"
+        android:gravity="center"
+        android:visibility="gone"
+        android:paddingTop="12dp"
+        android:textStyle="bold"/>
+
+    <!-- Task 1 -->
+    <LinearLayout
+        android:id="@+id/task1_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingVertical="10dp"
+        android:paddingHorizontal="8dp">
+
+        <ImageView
+            android:id="@+id/task1_icon"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:contentDescription="Task 1 status"
+            android:src="@drawable/ic_checkbox_unchecked" />
+
+        <TextView
+            android:id="@+id/task1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="First thing to do"
+            android:textSize="16sp"
+            android:textColor="@color/primaryTextColor"
+            android:paddingStart="12dp" />
+    </LinearLayout>
+
+    <!-- Task 2 -->
+    <LinearLayout
+        android:id="@+id/task2_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingVertical="10dp"
+        android:paddingHorizontal="8dp">
+
+        <ImageView
+            android:id="@+id/task2_icon"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:contentDescription="Task 2 status"
+            android:src="@drawable/ic_checkbox_unchecked" />
+
+        <TextView
+            android:id="@+id/task2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Second thing to do"
+            android:textSize="16sp"
+            android:textColor="@color/primaryTextColor"
+            android:paddingStart="12dp" />
+    </LinearLayout>
+
+    <!-- Task 3 -->
+    <LinearLayout
+        android:id="@+id/task3_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingVertical="10dp"
+        android:paddingHorizontal="8dp">
+
+        <ImageView
+            android:id="@+id/task3_icon"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:contentDescription="Task 3 status"
+            android:src="@drawable/ic_checkbox_unchecked" />
+
+        <TextView
+            android:id="@+id/task3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Third thing to do"
+            android:textSize="16sp"
+            android:textColor="@color/primaryTextColor"
+            android:paddingStart="12dp" />
+    </LinearLayout>
+</LinearLayout>

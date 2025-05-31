@@ -5,9 +5,10 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 
 @Composable
-fun TaskScreen() {
+fun TaskScreen(navController: NavController) {
     var task1 by remember { mutableStateOf("") }
     var task2 by remember { mutableStateOf("") }
     var task3 by remember { mutableStateOf("") }
@@ -35,5 +36,12 @@ fun TaskScreen() {
             label = { Text("Task 3") },
             modifier = Modifier.fillMaxWidth()
         )
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Button(onClick = {
+            navController.navigate("widget_add_screen")
+        }) {
+            Text("Add Widget")
+        }
     }
 }
