@@ -5,15 +5,15 @@ plugins {
 }
 
 android {
-    namespace = "com.example.threething"
+    namespace = "com.hongducle96.threething"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.example.threething"
+        applicationId = "com.hongducle96.threething"
         minSdk = 26
         targetSdk = 35
         versionCode = 1
-        versionName = "1.0"
+        versionName = "1.0.1"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -70,6 +70,7 @@ dependencies {
     implementation("androidx.compose.material:material:1.5.1")      // <-- ADD THIS LINE
     implementation("androidx.compose.material3:material3:1.2.0")
     implementation("androidx.core:core-splashscreen:1.0.1")
+    implementation ("com.google.android.material:material:1.11.0")
 
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("androidx.datastore:datastore-preferences:1.0.0")

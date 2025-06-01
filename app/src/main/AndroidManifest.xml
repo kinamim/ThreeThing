@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.threething">
+    package="com.hongducle96.threething">
 
     <!-- Notification & Foreground Service permissions -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
@@ -10,7 +10,7 @@
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="My Three Thing"
+        android:label="My Three Things"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ThreeThing.Splash"
@@ -31,7 +31,7 @@
             android:name=".widget.ToggleTaskReceiver"
             android:exported="true">
             <intent-filter>
-                <action android:name="com.example.threething.TOGGLE_TASK" />
+                <action android:name="com.hongducle96.threething.TOGGLE_TASK" />
             </intent-filter>
         </receiver>
 
